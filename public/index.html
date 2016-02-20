@@ -13,6 +13,7 @@
     <script>
         Smooch.init({
             appToken: '2l2dp4kzrozc474iargieo763',
+            emailCaptureEnabled: true,
             customText: {
                 headerText: 'How can we help?',
                 inputPlaceholder: 'Type a message...',
@@ -21,6 +22,11 @@
                 settingsText: 'You can leave us your email so that we can get back to you this way.'
             }
         });
+
+        Smooch.on('message', function (message) {
+            console.log('a message was added to the conversation', message);
+        });
+        
     </script>
 </body>
 
