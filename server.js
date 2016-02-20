@@ -15,7 +15,7 @@ app.use(express.static(__dirname + "/public"));
 app.get('/', function (req, res) {
     request('http://www.google.com', function (error, response, body) {
         if (!error && response.statusCode == 200) {
-            res.send(body) // Show the HTML for the Google homepage. 
+            res.send('This is some text. Hello world!') // Show the HTML for the Google homepage. 
         }
     })
 })
