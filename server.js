@@ -1,11 +1,11 @@
 var express = require('express');
 var app = express();
 var request = require('request');
-var Smooch = require('smooch');
+/*var Smooch = require('smooch');
 
 Smooch.init({
     appToken: '2daitql57gg85z3jurs6g16xf'
-});
+});*/
 
 var port = process.env.PORT || 1337;
 
@@ -16,6 +16,8 @@ app.get('/', function (req, res) {
     request('http://www.google.com', function (error, response, body) {
         if (!error && response.statusCode == 200) {
             res.send('This is some text. Hello world!') // Show the HTML for the Google homepage. 
+        } else {
+            res.send(error);
         }
     })
 })
