@@ -12,14 +12,8 @@ var port = process.env.PORT || 1337;
 // Routing to the user
 app.use(express.static(__dirname + "/public"));
 
-app.get('/', function (req, res) {
-    request('http://www.google.com', function (error, response, body) {
-        if (!error && response.statusCode == 200) {
-            res.send('This is some text. Hello world!') // Show the HTML for the Google homepage. 
-        } else {
-            res.send(error);
-        }
-    })
+app.get('/test', function (req, res) {
+    res.send('Test request');
 })
 
 app.listen(port, function () {
