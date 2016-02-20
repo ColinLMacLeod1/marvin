@@ -3,6 +3,15 @@ var app = express();
 var request = require('request');
 var jwt = require('jsonwebtoken');
 var bodyParser = require("body-parser");
+var WunderlistSDK = require('wunderlist');
+var $ = require('jQuery');
+
+//Wunderlist Credentials
+var client_id = 'd08ba8eaa21b0bec5a0a';
+var callback_url = 'http://mchackstest.azurewebsites.net/wunderlist';
+var access_token;
+
+
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -20,29 +29,36 @@ var signJwt = function (userId) {
         });
 }
 
+var wunderlistAPI = new WunderlistSDK({
+  'accessToken': 'a user access_token',
+  'clientID': 'your client_id'
+});
+
 var port = process.env.PORT || 1337;
 
 // Routing to the user
 app.use(express.static(__dirname + "/public"));
 
+// Post request from Smooch
 app.post('/smooch', function (req, res) {
     console.log(req.body.messages[0].text);
-    //    request({
-    //        url: 'http://api.smooch.io/v1/appusers/2daitql57gg85z3jurs6g16xf',
-    //        headers: {
-    //            authorization: 'Bearer ' + jwt
-    //        }
-    //    }, function(err, response, body){
-    //        console.log(body);
-    //    });
 });
+
+request({
+    url: 'https://www.wunderlist.com/oauth/authorize?client_id=' + client_id + '&redirect_uri=' + callback_url +'&state=hjajbasdfnvcjjd',
+}, function(err, response, body){
+    console.log(body);
+});
+
+
 
 app.listen(port, function () {
     console.log("Server is listening on port " + port.toString());
 });
 //
 var hello = signJwt('idk');
-//
+
+// Use this to create a new websocket!
 //console.log(hello);
 
 
