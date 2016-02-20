@@ -1,19 +1,19 @@
 var express = require('express');
 var app = express();
 var request = require('request');
-/*var Smooch = require('smooch');
+var smoochCore = require('smooch-core');
 
-Smooch.init({
-    appToken: '2daitql57gg85z3jurs6g16xf'
-});*/
+var skPromise = new smoochCore({
+    appToken: '2l2dp4kzrozc474iargieo763'
+});
 
 var port = process.env.PORT || 1337;
 
 // Routing to the user
 app.use(express.static(__dirname + "/public"));
 
-app.get('/test', function (req, res) {
-    res.send('Test request');
+app.get('/smooch', function (req, res) {
+    res.send(skPromise);
 })
 
 app.listen(port, function () {

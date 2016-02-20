@@ -1,7 +1,7 @@
 <html>
 
 <head>
-<!-- CSS -->
+    <!-- CSS -->
     <link rel="stylesheet" href="main.css" />
 </head>
 
@@ -9,10 +9,19 @@
 
 
 
-	<script src="https://cdn.smooch.io/smooch.min.js"></script>
-	<script>
-		Smooch.init({appToken: '2l2dp4kzrozc474iargieo763'});
-	</script>
+    <script src="https://cdn.smooch.io/smooch.min.js"></script>
+    <script>
+        Smooch.init({
+            appToken: '2l2dp4kzrozc474iargieo763',
+            customText: {
+                headerText: 'How can we help?',
+                inputPlaceholder: 'Type a message...',
+                sendButtonText: 'Send',
+                introText: 'This is the beginning of your conversation.<br/> Ask us anything!',
+                settingsText: 'You can leave us your email so that we can get back to you this way.'
+            }
+        });
+    </script>
 </body>
 
 </html>
