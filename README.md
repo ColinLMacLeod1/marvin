@@ -1,0 +1,2 @@
+# McHacks
+Project for McHacks
