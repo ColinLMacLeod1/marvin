@@ -2,54 +2,60 @@ var express = require('express');
 var app = express();
 var request = require('request');
 var jwt = require('jsonwebtoken');
+var bodyParser = require("body-parser");
+//Here we are configuring express to use body-parser as middle-ware.
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 var KEY_ID = '56c8d3002d0f822f00151145';
 var SECRET = '62Yxh5hAFBRlxpV_6GOpbtTq';
-var signJwt = function(userId) {
+var signJwt = function (userId) {
     return jwt.sign({
-        scope: 'app',
-    },
-    SECRET,
-    {
-        headers: {
-            kid: KEY_ID
-        }
-    });
+            scope: 'app',
+        },
+        SECRET, {
+            headers: {
+                kid: KEY_ID
+            }
+        });
 }
 
-//var port = process.env.PORT || 1337;
+var port = process.env.PORT || 1337;
+
+// Routing to the user
+app.use(express.static(__dirname + "/public"));
+
+app.post('/smooch', function (req, res) {
+    console.log(req.body.messages[0].text);
+    //    request({
+    //        url: 'http://api.smooch.io/v1/appusers/2daitql57gg85z3jurs6g16xf',
+    //        headers: {
+    //            authorization: 'Bearer ' + jwt
+    //        }
+    //    }, function(err, response, body){
+    //        console.log(body);
+    //    });
+});
+
+app.listen(port, function () {
+    console.log("Server is listening on port " + port.toString());
+});
 //
-//// Routing to the user
-//app.use(express.static(__dirname + "/public"));
+var hello = signJwt('idk');
 //
-//app.get('/smooch', function (req, res) {
+//console.log(hello);
+
+
 //    request({
-//        url: 'http://api.smooch.io/v1/appusers/2daitql57gg85z3jurs6g16xf',
+//        url: 'https://api.smooch.io/v1/webhooks',
+//        method: 'POST',
 //        headers: {
-//            authorization: 'Bearer ' + jwt
-//        }
+//            authorization: 'Bearer ' + hello,
+//            "content-type": 'application/json'
+//        },
+//        body: JSON.stringify({"target":"https://a2c8f1f4.ngrok.io/smooch"})
 //    }, function(err, response, body){
 //        console.log(body);
 //    });
-//});
 //
-//app.listen(port, function () {
-//    console.log("Server is listening on port " + port.toString());
-//});
-
-var hello =  signJwt('idk');
-
-console.log(hello);
-
-    request({
-        url: 'https://api.smooch.io/v1/webhooks',
-        method: 'POST',
-        headers: {
-            authorization: 'Bearer ' + hello,
-            "content-type": 'application/json'
-        },
-        body: JSON.stringify({"target":"http://mchackstest.azurewebsites.net/smooch"})
-    }, function(err, response, body){
-        console.log(body);
-    });
-
+//
