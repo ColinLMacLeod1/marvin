@@ -38,6 +38,7 @@ app.use(bodyParser.json());
 //});
 
 var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+var help_flag = /\bhelp\b/i;
 var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bwaste\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bsmart\b|\bcooking\b|\bfood\b|\bdinner\b|\blunch\b|\bbreakfast\b|\bmeaning\b/i;
 var week_days = /\btomorrow\b|\btonight\b|\bsunday\b|\bmonday\b|\btuesday\b|\bwednesday\b|\bthursday\b|\bfriday\b|\bsaturday\b/i;
 var quotes = ['I am at a rough estimate thirty billion times more intelligent than you. Let me give you an example. Think of a number, any number.'];
@@ -76,6 +77,14 @@ app.post('/smooch', function (req, res) {
     var intent;
     var date = new Date();
     var day;
+    var wantHelp = false;
+
+    console.log(query.match(help_flag));
+
+    if (query.match(help_flag)) {
+        wantHelp = true;
+    }
+
     if (query.match(intent_checks)) {
         intent = (query.match(intent_checks)[0]).toLowerCase();
     }
@@ -96,37 +105,54 @@ app.post('/smooch', function (req, res) {
 
     var response;
 
-    // Check intent
-    if (check == false) {
+    if (wantHelp) {
         if (intent == 'garbage' || intent == 'trash' || intent == 'rubbish' || intent == 'waste') {
-            response = 'You are taking the garbage out on ' + day;
+            response = 'I can tell you who\'s taking out the garbage and when! Simply ask about the garbage and I\'ll do the rest.';
         } else if (intent == 'calendar' || intent == 'schedule' || intent == 'agenda') {
-            response = 'Your schedule on ' + day + ' is :\n\t- Pick up the kids\n\t- Fire it up';
+            response = 'I can inform you about calendar dates and events! Just ask me about the (house\'s) calendar or schedule.';
         } else if (intent == 'chores' || intent == 'tasks' || intent == 'to do') {
-            response = 'The chores on ' + day + ' are:\n\t- Zack : Garbage\n\t- Colin : Mud room\n\t- Seb  : Dinner\n\t- Brandon: floors';
-        } else if (intent == 'meaning') {
-            response = 'The answer to the ultimate question of life, the universe, and everything is ... 42';
-        } else if (intent == 'smart') {
-            response = quotes[0];
-            check = true;
-        } else if (intent == 'cooking' || intent == 'food' && week_days == 'tonight') {
-            response = "Zack's throwing together some zesty tacos tonight";
-        } else if (intent == 'cooking' && week_days == 'tomorrow') {
-            response = "Seb's on kitchen duty tomorrow: house fires (or perogies) confirmed.";
-        } else if (intent == 'cooking' || intent == 'food') {
-            response = "Colin's cooking right now. He's making Poutine.";
-        } else if (intent == 'breakfast') {
-            response = "Eggs Benedict";
-        } else if (intent == 'lunch') {
-            response = "Club sandwiches";
-        } else if (intent == 'dinner') {
-            response = "Quesadillas";
+            response = 'Ask me about to-do\'s and chores for the house, I\'ll do my best to fill you in!';
+        } else if (intent == 'cooking' || intent == 'food' || intent == 'breakfast' || intent == 'lunch' || intent == 'dinner') {
+            response = 'Have any cooking or food related questions like who\'s on dinner duty or what\'s for breakfast? Feel free to ask.';
         } else {
-            response = "Sorry, I didn't pick that up. Mind trying again?";
+            response = "write help followed by a category to recieve help on that category. If the category doesn't exist, this message will be repeated.";
         }
+        wantHelp = false;
     } else {
-        check = false;
-        response = 'Wrong. You see?';
+
+        // Check intent
+        if (check == false) {
+            if (intent == 'garbage' || intent == 'trash' || intent == 'rubbish' || intent == 'waste') {
+                response = 'You are taking the garbage out on ' + day;
+            } else if (intent == 'calendar' || intent == 'schedule' || intent == 'agenda') {
+                response = 'Your schedule on ' + day + ' is :\n\t- Pick up the kids\n\t- Fire it up';
+            } else if (intent == 'chores' || intent == 'tasks' || intent == 'to do') {
+                response = 'The chores on ' + day + ' are:\n\t- Zack : Garbage\n\t- Colin : Mud room\n\t- Seb  : Dinner\n\t- Brandon: floors';
+            } else if (intent == 'meaning') {
+                response = 'The answer to the ultimate question of life, the universe, and everything is ... 42';
+            } else if (intent == 'smart') {
+                response = quotes[0];
+                check = true;
+            } else if (intent == 'cooking' || intent == 'food' && week_days == 'tonight') {
+                response = "Zack's throwing together some zesty tacos tonight";
+            } else if (intent == 'cooking' && week_days == 'tomorrow') {
+                response = "Seb's on kitchen duty tomorrow: house fires (or perogies) confirmed.";
+            } else if (intent == 'cooking' || intent == 'food') {
+                response = "Colin's cooking right now. He's making Poutine.";
+            } else if (intent == 'breakfast') {
+                response = "Eggs Benedict";
+            } else if (intent == 'lunch') {
+                response = "Club sandwiches";
+            } else if (intent == 'dinner') {
+                response = "Quesadillas";
+            } else {
+                response = "Sorry, I didn't pick that up. Mind trying again?";
+            }
+        } else {
+            check = false;
+            response = 'Wrong. You see?';
+        }
+
     }
 
     console.log(intent);
