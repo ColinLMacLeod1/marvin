@@ -3,7 +3,7 @@ var google = require('googleapis');
 var request = require('request');
 var jwt = require('jsonwebtoken');
 var bodyParser = require("body-parser");
-var gcal     = require('google-calendar');
+var gcal = require('google-calendar');
 
 // Google authentication
 //var OAuth2 = google.auth.OAuth2;
@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 //    });
 //});
 
-var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
 var week_days = /\btomorrow\b|\bsunday\b|\bmonday\b|\btuesday\b|\bwednesday\b|\bthursday\b|\bfriday\b|\bsaturday\b/i;
 var quotes = ['I am at a rough estimate thirty billion times more intelligent than you. Let me give you an example. Think of a number, any number.'];
@@ -73,27 +73,36 @@ app.post('/smooch', function (req, res) {
     if (req.body.messages[0].type === 'appMaker') {
         return res.end();
     }
-    var intent = (query.match(intent_checks)[0]).toLowerCase();
-    var day = (query.match(week_days)[0]).toLowerCase();
-    if(day === 'tomorrow') {
+
+    var intent;
+    var day;
+    if (query.match(intent_checks)) {
+        intent = (query.match(intent_checks)[0]).toLowerCase();
+    }
+    if (day = query.match(week_days)) {
+        day = (query.match(week_days)[0]).toLowerCase();
+    }
+
+    if (day === 'tomorrow') {
         var date = new Date();
         var day_of_week = date.getDay();
-        if(day_of_week == 6) {
+        if (day_of_week == 6) {
             day = days[0];
-        } else  if (day >= 0 && day < 6) {
+        } else if (day >= 0 && day < 6) {
             day = days[parseInt(date.getDay()) + 1];
         } else {
             day = days[parseInt(date.getDay())];
         }
     }
-    
+
     var response;
 
     if (check == false) {
         if (intent == 'garbage' || intent == 'trash' || intent == 'rubbish') {
             response = 'You are taking the garbage out on ' + day;
         } else if (intent == 'calendar' || intent == 'schedule' || intent == 'agenda') {
-            response = 'Your schedule on ' + day + ' is :\n\t- Pick up the kids\n\t- Fire it up';s
+            response = 'Your schedule on ' + day + ' is :\n\t- Pick up the kids\n\t- Fire it up';
+            s
         } else if (intent == 'chores' || intent == 'tasks' || intent == 'to do') {
             console.log('The chores on ' + day + ' are :\n\t- Zack : Garbage\n\t- Colin : Mud room\n\t- Seb  : Dinner\n\t- Brandon: floors');
         } else if (intent == 'meaning') {
