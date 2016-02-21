@@ -67,7 +67,6 @@ app.use(express.static(__dirname + "/public"));
 app.post('/smooch', function (req, res) {
 
     var query = req.body.messages[0].text;
-    console.log(query);
 
     var id = req.body.appUser._id;
     if (req.body.messages[0].type === 'appMaker') {
@@ -75,7 +74,8 @@ app.post('/smooch', function (req, res) {
     }
 
     var intent;
-    var day;
+    var date = new Date();
+    var day = days[parseInt(date.getDay())];
     if (query.match(intent_checks)) {
         intent = (query.match(intent_checks)[0]).toLowerCase();
     }
@@ -96,6 +96,7 @@ app.post('/smooch', function (req, res) {
 
     var response;
 
+    // Check intent
     if (check == false) {
         if (intent == 'garbage' || intent == 'trash' || intent == 'rubbish') {
             response = 'You are taking the garbage out on ' + day;
