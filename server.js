@@ -34,6 +34,8 @@ app.get('/google', function (req, res) {
         if (!err) {
             console.log(tokens);
             tok = tokens;
+        } else {
+            console.log(err);
         }
     });
     res.send(tok);
