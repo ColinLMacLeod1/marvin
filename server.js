@@ -4,7 +4,7 @@ var request = require('request');
 var jwt = require('jsonwebtoken');
 var bodyParser = require("body-parser");
 var WunderlistSDK = require('wunderlist');
-var $ = require('jQuery');
+var $ = require('jquery');
 
 //Wunderlist Credentials
 var client_id = 'd08ba8eaa21b0bec5a0a';
@@ -47,7 +47,7 @@ app.post('/smooch', function (req, res) {
 request({
     url: 'https://www.wunderlist.com/oauth/authorize?client_id=' + client_id + '&redirect_uri=' + callback_url +'&state=hjajbasdfnvcjjd',
 }, function(err, response, body){
-    console.log(body);
+    //console.log(body);
 });
 
 
@@ -69,9 +69,8 @@ var hello = signJwt('idk');
 //            authorization: 'Bearer ' + hello,
 //            "content-type": 'application/json'
 //        },
-//        body: JSON.stringify({"target":"https://a2c8f1f4.ngrok.io/smooch"})
+//        body: JSON.stringify({"target":"https://0e34dad8.ngrok.io/smooch"})
 //    }, function(err, response, body){
 //        console.log(body);
 //    });
-//
-//
+
