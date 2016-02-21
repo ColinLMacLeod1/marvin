@@ -43,9 +43,10 @@ app.use(express.static(__dirname + "/public"));
 // Post request from Smooch
 app.post('/smooch', function (req, res) {
     var query = req.body.messages[0].text;
+    var id = req.body.messages[0]._id;
     console.log(query);
     request({
-        url: 'https://api.smooch.io/v1/appusers/2daitql57gg85z3jurs6g16xf/conversation/messages',
+        url: 'https://api.smooch.io/v1/appusers/' + id + '/conversation/messages',
         mehtod: 'POST',
         headers: {
             authorization: 'Bearer ' + hello,
