@@ -48,7 +48,7 @@ app.post('/smooch', function (req, res) {
     console.log(query);
     request({
         url: 'https://api.smooch.io/v1/appusers/' + id + '/conversation/messages',
-        mehtod: 'POST',
+        method: 'POST',
         headers: {
             authorization: 'Bearer ' + hello,
             "content-type": 'application/json'
@@ -56,26 +56,15 @@ app.post('/smooch', function (req, res) {
         body: JSON.stringify({'text':query, 'role':'appMaker'})
     }, function(err, response, body){
         console.log(body);
+        req.end();
     })
 });
 
 //request({
-//        url: 'https://api.smooch.io/v1/appusers/' + id + '/conversation/messages',
-//        mehtod: 'POST',
-//        headers: {
-//            authorization: 'Bearer ' + hello,
-//            "content-type": 'application/json'
-//        },
-//        body: JSON.stringify({'text':'text', 'role':'appMaker'})
-//    }, function(err, response, body){
-//        console.log(body);
-//    })
-
-request({
-    url: 'https://www.wunderlist.com/oauth/authorize?client_id=' + client_id + '&redirect_uri=' + callback_url +'&state=hjajbasdfnvcjjd',
-}, function(err, response, body){
-    //console.log(body);
-});
+//    url: 'https://www.wunderlist.com/oauth/authorize?client_id=' + client_id + '&redirect_uri=' + callback_url +'&state=hjajbasdfnvcjjd',
+//}, function(err, response, body){
+//    //console.log(body);
+//});
 
 
 
