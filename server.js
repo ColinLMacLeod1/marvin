@@ -12,11 +12,11 @@ var CLIENT_SECRET = "EEH8UesPBWKf4-GCXRKnb1xy";
 var REDIRECT_URL = 'http://marvinbot.azurewebsites.net/google';
 var oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 var scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
-//var url = oauth2Client.generateAuthUrl({
-//    access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
-//    scope: scopes // If you only need one scope you can pass it as string
-//});
-//console.log(url);
+var url = oauth2Client.generateAuthUrl({
+    access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
+    scope: scopes // If you only need one scope you can pass it as string
+});
+console.log(url);
 
 var app = express();
 //Here we are configuring express to use body-parser as middle-ware.
