@@ -104,7 +104,7 @@ app.post('/smooch', function (req, res) {
             response = 'Your schedule on ' + day + ' is :\n\t- Pick up the kids\n\t- Fire it up';
             s
         } else if (intent == 'chores' || intent == 'tasks' || intent == 'to do') {
-            response = 'The chores on ' + day + ' are :\n\t- Zack : Garbage\n\t- Colin : Mud room\n\t- Seb  : Dinner\n\t- Brandon: floors';
+            response = 'The chores on ' + day + ' are:\n\t- Zack : Garbage\n\t- Colin : Mud room\n\t- Seb  : Dinner\n\t- Brandon: floors';
         } else if (intent == 'meaning') {
             response = 'The answer to the ultimate question of life, the universe, and everything is ... 42';
         } else {
