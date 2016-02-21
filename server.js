@@ -26,10 +26,10 @@ app.use(bodyParser.json());
 
 app.get('/auth', function(req, res) {
     res.redirect(url);
-    console.log('Sent url');
+    console.log('Redirecting to ' + url);
 });
 app.get('/google', function(req, res) {
-    console.log(req.params);
+    res.send(req.params);
 });
 
 var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
