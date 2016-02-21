@@ -43,7 +43,7 @@ app.use(express.static(__dirname + "/public"));
 // Post request from Smooch
 app.post('/smooch', function (req, res) {
     var query = req.body.messages[0].text;
-    var id = req.body.messages[0]._id;
+    var id = req.body.appUser._id;
     console.log(id);
     console.log(query);
     request({
@@ -58,6 +58,18 @@ app.post('/smooch', function (req, res) {
         console.log(body);
     })
 });
+
+//request({
+//        url: 'https://api.smooch.io/v1/appusers/' + id + '/conversation/messages',
+//        mehtod: 'POST',
+//        headers: {
+//            authorization: 'Bearer ' + hello,
+//            "content-type": 'application/json'
+//        },
+//        body: JSON.stringify({'text':'text', 'role':'appMaker'})
+//    }, function(err, response, body){
+//        console.log(body);
+//    })
 
 request({
     url: 'https://www.wunderlist.com/oauth/authorize?client_id=' + client_id + '&redirect_uri=' + callback_url +'&state=hjajbasdfnvcjjd',
