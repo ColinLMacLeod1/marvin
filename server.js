@@ -72,6 +72,7 @@ app.post('/smooch', function (req, res) {
     console.log(id);
     console.log(query);
     var intent = (query.match(intent_checks)[0]).toLowerCase();
+    var response;
 
     if (intent == 'garbage' || intent == 'trash' || intent == 'rubbish') {
         console.log('Garbage time');
@@ -80,7 +81,7 @@ app.post('/smooch', function (req, res) {
     } else if (intent == 'chores' || intent == 'tasks' || intent == 'to do') {
         console.log('Floor marshall is in the house');
     } else if (intent == 'meaning') {
-        query = 'The answer to the ultimate question of life, the universe, and everything is ... 42';
+        response = 'The answer to the ultimate question of life, the universe, and everything is ... 42';
     }
 
     console.log(intent);
