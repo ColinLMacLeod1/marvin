@@ -1,8 +1,3 @@
-@font-face {
-	    font-family: 'Righteous';
-		src: url('fonts/Righteous.woff') format('woff');
-}
-
 body {
 	background-image: url("pictures/whiteDesk.jpg");
 	background-size: 50vw;
@@ -59,7 +54,7 @@ a:hover{
 	top:4vh;
 	right:10vh;
 	padding-bottom:6vh;
-	font-family:Righteous;
+	font-family: 'Righteous', cursive;
 	font-size:80%;
 	
 }
@@ -86,7 +81,7 @@ a:hover{
 }
 .title{
 	display: inline;
-	font-family: Righteous;
+	font-family: 'Righteous', cursive;
 	color: white;
 	font-size: 15vh;
 	text-shadow: -0.03em 0 black, 0 0.03em black, 0.03em 0 black, 0 -0.03em black;
@@ -99,7 +94,7 @@ a:hover{
 	margin-bottom: 10vh;
 	width: 20vw;
 	background-color: rgba(255,255,255,0.4);
-	font-family: Righteous;
+	font-family: 'Righteous', cursive;
 	padding: 2vh 0vh 2vh 0vh;
 	border-radius: 1em;
 	color: black;
@@ -110,7 +105,7 @@ a:hover{
 }
 .pageTitle{
 	margin-top:5vh;
-	font-family:Righteous;
+	font-family: 'Righteous', cursive;
 	margin-bottom: -20vh;
 }
 .marvinFoot{
@@ -123,7 +118,7 @@ a:hover{
 	bottom:-2.5vh;
 	left:4vh;
 	color:white;
-	font-family:Righteous;
+	font-family: 'Righteous', cursive;
 	z-index:10100;
 	font-weight:100;
 	font-size:50%;
@@ -141,7 +136,7 @@ a:hover{
 	right: 10vw !important;
 	left: 10vw !important;
 	margin-bottom:5vh !important;
-	font-family: Righteous;
+	font-family: 'Righteous', cursive;
 	box-shadow: 0 0 5vw rgba(0,0,0,0.5) !important;
 }
 #sk-wrapper{
@@ -152,7 +147,7 @@ a:hover{
 	width: 95% !important;
 }
 .sk-intro{
-	font-family: Righteous !important;
+	font-family: 'Righteous', cursive !important;
 	color: black !important;
 	font-size: 300%;
 }
@@ -163,7 +158,7 @@ a:hover{
 	opacity: 1 !important;
 }
 .span{
-	font-family: Righteous;
+	font-family: 'Righteous', cursive;
 }
 #sk-conversation {
 	width: 100% !important;
