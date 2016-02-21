@@ -84,15 +84,14 @@ app.post('/smooch', function (req, res) {
     }
 
     var date = new Date();
+    day = days[parseInt(date.getDay())];
     if (day === 'tomorrow') {
         var day_of_week = date.getDay();
         if (day_of_week == 6) {
             day = days[0];
         } else if (day >= 0 && day < 6) {
             day = days[parseInt(date.getDay()) + 1];
-        } else {
-            day = days[parseInt(date.getDay())];
-        }
+        } 
     }
 
     var response;
