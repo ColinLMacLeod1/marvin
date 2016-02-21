@@ -1,6 +1,6 @@
 # Marvin
 This is Marvin
-
+![](https://raw.githubusercontent.com/zackharley/McHacks/master/public/pictures/logo.png =250x)
 ## Installation
 
 To install:
