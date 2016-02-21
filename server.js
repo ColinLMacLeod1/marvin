@@ -74,17 +74,19 @@ app.post('/smooch', function (req, res) {
         return res.end();
     }
     var intent = (query.match(intent_checks)[0]).toLowerCase();
-    //var day = (query.match(week_days)[0]).toLowerCase();
-//    if(day === 'tomorrow') {
-//        var date = new Date();
-//        var day_of_week = date.getDay();
-//        if(day_of_week == 6) {
-//            day = days[0];
-//        } else {
-//            day = days[parseInt(date.getDay()) + 1];
-//        }
-//    }
-    var day = 'Tuesday';
+    var day = (query.match(week_days)[0]).toLowerCase();
+    if(day === 'tomorrow') {
+        var date = new Date();
+        var day_of_week = date.getDay();
+        if(day_of_week == 6) {
+            day = days[0];
+        } else  if (day >= 0 && day < 6) {
+            day = days[parseInt(date.getDay()) + 1];
+        } else {
+            day = days[parseInt(date.getDay())];
+        }
+    }
+    
     var response;
 
     if (check == false) {
