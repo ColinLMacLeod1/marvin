@@ -3,25 +3,107 @@
 <head>
     <!-- CSS -->
     <link rel="stylesheet" href="main.css" />
+    <!-- JavaScript -->
+    <!-- <link rel="stylesheet" href="../assets/stylesheets/main.css" type="text/css"> -->
+    <!-- jQuery -->
+    <script src="js/jquery-2.2.0.min.js"></script>
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        function callbackend() {
+
+        	var url = document.getElementById("image_url").value;
+
+        	if (url.length < 5 || (!url.indexOf(".jpg") > -1 && url.indexOf(".jpeg") > -1 && url.indexOf(".png") > -1)) {
+        		return;
+        	}
+
+            console.log(url);
+            createSearch(url);
+            $.ajax({
+                method: "POST",
+                url: "findPhotoTags",
+                data: {
+                    image_url: url
+                },
+                success: function (data) {
+                    var returnedData = $.parseJSON(data);
+
+                    if (returnedData.success == "Failure") {
+                    	$(".tag_list > li:first-child").remove();
+                    }
+
+                    console.log(returnedData);
+
+                    var count = 0;
+
+                    $(".tag_list > li:first-child > .content > ul > img").remove();
+
+                    for (var iframe in returnedData.iframes) {
+                        if (count <= 5) {
+                        	$(".tag_list > li:first-child > .content > ul").append("<li>" + returnedData.iframes[iframe].iframe + "</li>");
+                        }
+                        count += 1;
+                    }
+
+                    var tags = "";
+
+                    for (var tag in returnedData.tags) {
+                        tags += returnedData.tags[tag].class + " ";
+                    }
+
+                    $(".tag_list > li:first-child > .tagImages").append("<p>" + tags + "</p>");
+                }
+            });
+        }
+
+        function createSearch(url) {
+            var tags = "<li><div class='tagImages'><img src=" + url + " /></div><div class='content'><ul><img src='pictures/ajax-loader.gif'/></ul></div></li>"
+            $(".tag_list").prepend(tags);
+        }
+    </script>
 </head>
 
 <body>
+    <div class="wrapper">
+        <center>
+            <!-- Page 1 Is the title page -->
+            <div class="fade-background">
+                <div id="page1" class="main-div page">
+                    <img id="main-logo" class="main-logo" src="Pictures/logo.png">
+                    <p class="description">Photoverse lets you find a playlist for any situation! Just upload a picture </p>
+                    <div class="down_arrow_container">
+                        <a id="get-started" href="#page2">
+                            <img src="pictures/DownArrow.png" class="DownArrow">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- Page 2 is where the user uploads the photo, it also displays their image -->
+            <div id="page2" class="page2 page">
+                <h2 class="sub_heading">Try It Out!</h2>
+                <div class="input_field">
+                    <input id="image_url" name="image_url" class="" placeholder="Paste your link here...">
+                    <!-- <span contenteditable="true">Paste your link here...</span> -->
+                    <a onclick="callbackend()" id="submit" class="">Submit</a>
+                </div>
+            </div>
+            <!-- Page 3 displays the results-->
+            <div id="page3" class="page3">
+                <h2 class="Sub-heading">Try out these playlists</h2>
 
-    <a href="http://marvinbot.azurewebsites.net/auth" target="_blank">GOOGLE</a>
-    <script src="https://cdn.smooch.io/smooch.min.js"></script>
-    <script>
-        Smooch.init({
-            appToken: 'do1atdwbgza14xro3kl4wymvy',
-            emailCaptureEnabled: true,
-            customText: {
-                headerText: 'How can we help?',
-                inputPlaceholder: 'Type a message...',
-                sendButtonText: 'Send',
-                introText: 'This is the beginning of your conversation.<br/> Ask us anything!',
-                settingsText: 'You can leave us your email so that we can get back to you this way.'
-            }
-        });        
-    </script>
+                <div class="tag_display">
+                    <ul class="tag_list">
+                        <!--this is where the tags go-->
+                    </ul>
+                </div>
+                <div class="tryagainArea">
+                    <a class="finished" id="finished" href="#">I want to try it again!</a>
+                </div>
+            </div>
+
+        </center>
+    </div>
 </body>
 
 </html>
