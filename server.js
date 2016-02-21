@@ -80,18 +80,18 @@ app.post('/smooch', function (req, res) {
         intent = (query.match(intent_checks)[0]).toLowerCase();
     }
     if (day = query.match(week_days)) {
-        day = (query.match(week_days)[0]).toLowerCase();
+        day = capitalize(query.match(week_days)[0]);
     }
 
-    if (day === 'tomorrow') {
+    if (day == 'tomorrow') {
         var day_of_week = date.getDay();
         if (day_of_week == 6) {
             day = days[0];
         } else if (day >= 0 && day < 6) {
             day = days[parseInt(date.getDay()) + 1];
-        } 
+        }
+        day = capitalize(day);
     }
-    day = capitalize(day);
 
     var response;
 
