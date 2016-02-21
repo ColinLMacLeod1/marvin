@@ -6,17 +6,17 @@ var bodyParser = require("body-parser");
 var gcal     = require('google-calendar');
 
 // Google authentication
-var OAuth2 = google.auth.OAuth2;
-var CLIENT_ID = '698142480854-nii1gbr1m0uvfp6cggo846gvrtvfh0su.apps.googleusercontent.com';
-var CLIENT_SECRET = "EEH8UesPBWKf4-GCXRKnb1xy";
-var REDIRECT_URL = 'http://marvinbot.azurewebsites.net/google';
-var oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
-var scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
-var url = oauth2Client.generateAuthUrl({
-    access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
-    scope: scopes // If you only need one scope you can pass it as string
-});
-console.log(url);
+//var OAuth2 = google.auth.OAuth2;
+//var CLIENT_ID = '698142480854-nii1gbr1m0uvfp6cggo846gvrtvfh0su.apps.googleusercontent.com';
+//var CLIENT_SECRET = "EEH8UesPBWKf4-GCXRKnb1xy";
+//var REDIRECT_URL = 'http://marvinbot.azurewebsites.net/google';
+//var oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
+//var scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
+//var url = oauth2Client.generateAuthUrl({
+//    access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
+//    scope: scopes // If you only need one scope you can pass it as string
+//});
+//console.log(url);
 
 var app = express();
 //Here we are configuring express to use body-parser as middle-ware.
@@ -25,20 +25,21 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.get('/auth', function (req, res) {
-    res.redirect(url);
-    console.log('Redirecting to ' + url);
-});
-app.get('/google', function (req, res) {
-    var code = req.query.code;
-    request({
-        url: 'https://www.googleapis.com/oauth2/v4/token',
-        method: 'POST',
-    });
-});
+//app.get('/auth', function (req, res) {
+//    res.redirect(url);
+//    console.log('Redirecting to ' + url);
+//});
+//app.get('/google', function (req, res) {
+//    var code = req.query.code;
+//    request({
+//        url: 'https://www.googleapis.com/oauth2/v4/token',
+//        method: 'POST',
+//    });
+//});
 
 
 var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
+var week_days = /\bsunday\b|\bmonday\b|\btuesday\b|\bwednesday\b|\bthursday\b|\bfriday\b|\bsaturday\b/i
 
 var KEY_ID = '56c930cf933bcc2a00e9166f';
 var SECRET = 'GZ5goIxmVGV_p977jcpi-iOC';
@@ -72,14 +73,15 @@ app.post('/smooch', function (req, res) {
     console.log(id);
     console.log(query);
     var intent = (query.match(intent_checks)[0]).toLowerCase();
+    var day = (query.match(week_days)[0]).toLowerCase();
     var response;
 
     if (intent == 'garbage' || intent == 'trash' || intent == 'rubbish') {
-        console.log('Garbage time');
+        response = 'You are taking the garbage out on' + day;
     } else if (intent == 'calendar' || intent == 'schedule' || intent == 'agenda') {
-        console.log('Fire it Marvin');
+        response = 'Your schedule on ' + day + ' is :\n\t- Pick up the kids\n\t- Fire it up';s
     } else if (intent == 'chores' || intent == 'tasks' || intent == 'to do') {
-        console.log('Floor marshall is in the house');
+        console.log('The chores on ' + day + ' are :\n\t- Zack : Garbage\n\t- Colin : Mud room\n\t- Seb  : Dinner\n\t- Brandon: floors');
     } else if (intent == 'meaning') {
         response = 'The answer to the ultimate question of life, the universe, and everything is ... 42';
     }
