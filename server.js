@@ -29,7 +29,7 @@ app.get('/auth', function(req, res) {
     console.log('Redirecting to ' + url);
 });
 app.get('/google', function(req, res) {
-    res.send(req.params);
+    res.send(req.query.code);
 });
 
 var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
