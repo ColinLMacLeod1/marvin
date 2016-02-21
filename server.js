@@ -31,7 +31,10 @@ app.get('/auth', function (req, res) {
 });
 app.get('/google', function (req, res) {
     var code = req.query.code;
-    res.send(code);
+    request({
+        url: 'https://www.googleapis.com/oauth2/v4/token',
+        method: 'POST',
+    });
 });
 
 
@@ -77,7 +80,7 @@ app.post('/smooch', function (req, res) {
     } else if (intent == 'chores' || intent == 'tasks' || intent == 'to do') {
         console.log('Floor marshall is in the house');
     } else if (intent == 'meaning') {
-        console.log('42');
+        query = 'The answer to the ultimate question of life, the universe, and everything is ... 42';
     }
 
     console.log(intent);
