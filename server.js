@@ -40,6 +40,7 @@ var port = process.env.PORT || 1337;
 // Routing to the user
 app.use(express.static(__dirname + "/public"));
 
+var hello = signJwt('idk');
 // Post request from Smooch
 app.post('/smooch', function (req, res) {
     
@@ -59,7 +60,7 @@ app.post('/smooch', function (req, res) {
         console.log(body);
     });
     
-    res.end('');
+    res.end();
 });
 
 //request({
@@ -74,7 +75,6 @@ app.listen(port, function () {
     console.log("Server is listening on port " + port.toString());
 });
 //
-var hello = signJwt('idk');
 
 // Use this to create a new websocket!
 //console.log(hello);
@@ -87,7 +87,7 @@ var hello = signJwt('idk');
 //            authorization: 'Bearer ' + hello,
 //            "content-type": 'application/json'
 //        },
-//        body: JSON.stringify({"target":"http://mchackstest.azurewebsites.net/smooch", "triggers": ["message:appUser"]})
+//        body: JSON.stringify({"target":"http://marvinbot.azurewebsites.net/smooch"})
 //    }, function(err, response, body){
 //        console.log(body);
 //    });
