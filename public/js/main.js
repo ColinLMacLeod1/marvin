@@ -4,18 +4,17 @@ $(document).ready(function () {
     
     $(window).resize(function(){
         windowSize = $(window).height();
-        // $('.page').height($(window).height());
     });
 
-    $('#get-started').click(function () {
-       $("html, body").animate({ scrollTop: windowSize });
+    $('#descClick').click(function () {
+       $("html, body").animate({ scrollTop: windowSize*0.75});
     });
     
-    $('#submit').click(function () {
-       $("html, body").animate({ scrollTop: windowSize*2 });
+    $('#arrowClick').click(function () {
+       $("html, body").animate({ scrollTop: windowSize*0.75 });
     });
     
     $('#finished').click(function () {
-       $("html, body").animate({ scrollTop: windowSize });
+       $("html, body").animate({ scrollTop:0});
     });
 });
