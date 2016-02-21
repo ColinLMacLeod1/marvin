@@ -3,6 +3,9 @@ var google = require('googleapis');
 var request = require('request');
 var jwt = require('jsonwebtoken');
 var bodyParser = require("body-parser");
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var passport = require('passport');
+var gcal     = require('google-calendar');
 
 // Google authentication
 var OAuth2 = google.auth.OAuth2;
@@ -11,11 +14,11 @@ var CLIENT_SECRET = "EEH8UesPBWKf4-GCXRKnb1xy";
 var REDIRECT_URL = 'http://marvinbot.azurewebsites.net/google';
 var oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 var scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
-var url = oauth2Client.generateAuthUrl({
-    access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
-    scope: scopes // If you only need one scope you can pass it as string
-});
-console.log(url);
+//var url = oauth2Client.generateAuthUrl({
+//    access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
+//    scope: scopes // If you only need one scope you can pass it as string
+//});
+//console.log(url);
 
 var app = express();
 //Here we are configuring express to use body-parser as middle-ware.
@@ -24,22 +27,41 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.get('/auth', function (req, res) {
-    res.redirect(url);
-    console.log('Redirecting to ' + url);
-});
-app.get('/google', function (req, res) {
-    var tok;
-    oauth2Client.getToken(req.query.code, function (err, tokens) {
-        if (!err) {
-            console.log(tokens);
-            tok = tokens;
-        } else {
-            console.log(err);
-        }
+//app.get('/auth', function (req, res) {
+//    res.redirect(url);
+//    console.log('Redirecting to ' + url);
+//});
+//app.get('/google', function (req, res) {
+//    var tok;
+//    oauth2Client.getToken(req.query.code, function (err, tokens) {
+//        if (!err) {
+//            console.log(tokens);
+//            tok = tokens;
+//        } else {
+//            console.log(err);
+//        }
+//    });
+//    res.send(tok);
+//});
+
+passport.use(new GoogleStrategy({
+    clientID: CLIENT_ID,
+    clientSecret: CLIENT_SECRET,
+    callbackURL: REDIRECT_URL,
+    scope: ['openid', 'email', 'https://www.googleapis.com/auth/calendar'] 
+  },
+  function(accessToken, refreshToken, profile, done) {
+    
+    google_calendar = new gcal.GoogleCalendar(accessToken); 
+    
+    google_calendar.calendarList.list(function(err, calendarList) {
+        console.log(calendarList);
     });
-    res.send(tok);
-});
+    
+    
+    return done(null, profile);
+  }
+));
 
 
 var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
