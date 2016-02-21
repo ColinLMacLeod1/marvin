@@ -44,6 +44,7 @@ app.use(express.static(__dirname + "/public"));
 app.post('/smooch', function (req, res) {
     var query = req.body.messages[0].text;
     var id = req.body.messages[0]._id;
+    consol.log(id);
     console.log(query);
     request({
         url: 'https://api.smooch.io/v1/appusers/' + id + '/conversation/messages',
