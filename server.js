@@ -42,6 +42,7 @@ app.use(express.static(__dirname + "/public"));
 
 // Post request from Smooch
 app.post('/smooch', function (req, res) {
+    res.end('');
     var query = req.body.messages[0].text;
     var id = req.body.appUser._id;
     console.log(id);
@@ -56,7 +57,6 @@ app.post('/smooch', function (req, res) {
         body: JSON.stringify({'text':query, 'role':'appMaker'})
     }, function(err, response, body){
         console.log(body);
-        res.end();
     })
 });
 
