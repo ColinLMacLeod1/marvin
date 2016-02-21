@@ -56,7 +56,7 @@ app.post('/smooch', function (req, res) {
         body: JSON.stringify({'text':query, 'role':'appMaker'})
     }, function(err, response, body){
         console.log(body);
-        req.end();
+        res.end();
     })
 });
 
