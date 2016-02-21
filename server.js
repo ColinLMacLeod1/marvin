@@ -28,6 +28,7 @@ var signJwt = function (userId) {
             }
         });
 }
+var hello = signJwt('idk');
 
 var wunderlistAPI = new WunderlistSDK({
   'accessToken': 'a user access_token',
@@ -41,7 +42,19 @@ app.use(express.static(__dirname + "/public"));
 
 // Post request from Smooch
 app.post('/smooch', function (req, res) {
-    console.log(req.body.messages[0].text);
+    var query = req.body.messages[0].text;
+    console.log(query);
+    request({
+        url: 'https://api.smooch.io/v1/appusers/56c8d3002d0f822f00151145/conversation/messages',
+        mehtod: 'POST',
+        headers: {
+            authorization: 'Bearer ' + hello,
+            "content-type": 'application/json'
+        },
+        body: JSON.stringify({'text':query, 'role':'appMaker'})
+    }, function(err, response, body){
+        console.log(body);
+    })
 });
 
 request({
@@ -69,7 +82,7 @@ var hello = signJwt('idk');
 //            authorization: 'Bearer ' + hello,
 //            "content-type": 'application/json'
 //        },
-//        body: JSON.stringify({"target":"https://0e34dad8.ngrok.io/smooch"})
+//        body: JSON.stringify({"target":"http://mchackstest.azurewebsites.net/smooch", "triggers": ["message:appUser"]})
 //    }, function(err, response, body){
 //        console.log(body);
 //    });
