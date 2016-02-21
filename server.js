@@ -83,8 +83,8 @@ app.post('/smooch', function (req, res) {
         day = (query.match(week_days)[0]).toLowerCase();
     }
 
+    var date = new Date();
     if (day === 'tomorrow') {
-        var date = new Date();
         var day_of_week = date.getDay();
         if (day_of_week == 6) {
             day = days[0];
