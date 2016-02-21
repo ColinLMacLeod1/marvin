@@ -8,7 +8,7 @@ var bodyParser = require("body-parser");
 var OAuth2 = google.auth.OAuth2;
 var CLIENT_ID = '698142480854-nii1gbr1m0uvfp6cggo846gvrtvfh0su.apps.googleusercontent.com';
 var CLIENT_SECRET = "EEH8UesPBWKf4-GCXRKnb1xy";
-var REDIRECT_URL = 'http://marvinbot.azurewebsites.net';
+var REDIRECT_URL = 'http://marvinbot.azurewebsites.net/google';
 var oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 var scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
 var url = oauth2Client.generateAuthUrl({
@@ -18,19 +18,21 @@ var url = oauth2Client.generateAuthUrl({
 console.log(url);
 
 var app = express();
-
-app.get('/google', function(req, res) {
-    res.redirect(url);
-    console.log('Sent url');
-});
-
-var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
-
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({
     extended: false
 }));
 app.use(bodyParser.json());
+
+app.get('/auth', function(req, res) {
+    res.redirect(url);
+    console.log('Sent url');
+});
+app.get('/google', function(req, res) {
+    console.log(req.body);
+});
+
+var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
 
 var KEY_ID = '56c930cf933bcc2a00e9166f';
 var SECRET = 'GZ5goIxmVGV_p977jcpi-iOC';
