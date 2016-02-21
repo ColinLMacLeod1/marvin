@@ -1,18 +1,35 @@
 var express = require('express');
-var app = express();
+var google = require('googleapis');
 var request = require('request');
 var jwt = require('jsonwebtoken');
 var bodyParser = require("body-parser");
-var WunderlistSDK = require('wunderlist');
+
+// Google authentication
+var OAuth2 = google.auth.OAuth2;
+var CLIENT_ID = '698142480854-nii1gbr1m0uvfp6cggo846gvrtvfh0su.apps.googleusercontent.com';
+var CLIENT_SECRET = "EEH8UesPBWKf4-GCXRKnb1xy";
+var REDIRECT_URL = 'http://www.zackharley.me';
+var oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
+var scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
+var url = oauth2Client.generateAuthUrl({
+  access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
+  scope: scopes // If you only need one scope you can pass it as string
+});
+console.log(url);
+
+var app = express();
 
 var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
 
 //Here we are configuring express to use body-parser as middle-ware.
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(bodyParser.json());
 
 var KEY_ID = '56c930cf933bcc2a00e9166f';
 var SECRET = 'GZ5goIxmVGV_p977jcpi-iOC';
+
 var signJwt = function (userId) {
     return jwt.sign({
             scope: 'app',
@@ -30,12 +47,11 @@ var port = process.env.PORT || 1337;
 // Routing to the user
 app.use(express.static(__dirname + "/public"));
 
-var hello = signJwt('idk');
 // Post request from Smooch
 app.post('/smooch', function (req, res) {
-    
+
     var query = req.body.messages[0].text;
-    
+
     var id = req.body.appUser._id;
     if (req.body.messages[0].type === 'appMaker') {
         return res.end();
@@ -43,8 +59,8 @@ app.post('/smooch', function (req, res) {
     console.log(id);
     console.log(query);
     var intent = (query.match(intent_checks)[0]).toLowerCase();
-    
-    if(intent == 'garbage' || intent == 'trash' || intent == 'rubbish') {
+
+    if (intent == 'garbage' || intent == 'trash' || intent == 'rubbish') {
         console.log('Garbage time');
     } else if (intent == 'calendar' || intent == 'schedule' || intent == 'agenda') {
         console.log('Fire it Marvin');
@@ -53,7 +69,7 @@ app.post('/smooch', function (req, res) {
     } else if (intent == 'meaning') {
         console.log('42');
     }
-    
+
     console.log(intent);
     request({
         url: 'https://api.smooch.io/v1/appusers/' + id + '/conversation/messages',
@@ -62,15 +78,18 @@ app.post('/smooch', function (req, res) {
             authorization: 'Bearer ' + hello,
             "content-type": 'application/json'
         },
-        body: JSON.stringify({'text':intent, 'role':'appMaker'})
-    }, function(err, response, body){
+        body: JSON.stringify({
+            'text': intent,
+            'role': 'appMaker'
+        })
+    }, function (err, response, body) {
         if (err) {
             console.log(err);
         } else {
             console.log('Message sent successfully');
         }
     });
-    
+
     res.end();
 });
 
@@ -79,10 +98,8 @@ app.listen(port, function () {
 });
 //
 
+
 // Use this to create a new websocket!
-//console.log(hello);
-
-
 //    request({
 //        url: 'https://api.smooch.io/v1/webhooks',
 //        method: 'POST',
@@ -118,5 +135,3 @@ app.listen(port, function () {
 //    }, function(err, response, body){
 //        console.log(JSON.parse(body).webhooks[0]);
 //    });
-
-
