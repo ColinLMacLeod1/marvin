@@ -108,6 +108,7 @@ app.post('/smooch', function (req, res) {
             response = 'The answer to the ultimate question of life, the universe, and everything is ... 42';
         } else if (intent == 'smart') {
             response = quotes[0];
+            check = true;
         } else if (intent == 'cooking' || intent == 'food' && week_days == 'tonight') {
             response = "Zack's throwing together some zesty tacos tonight";
         } else if (intent == 'cooking' && week_days == 'tomorrow') {
@@ -121,8 +122,7 @@ app.post('/smooch', function (req, res) {
         } else if (intent == 'dinner') {
             response = "Quesadillas";
         } else {
-            response = "Sorry, I didn't pick that up. Mind trying again.";
-            check = true;
+            response = "Sorry, I didn't pick that up. Mind trying again?";
         }
     } else {
         check = false;
