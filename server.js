@@ -30,6 +30,7 @@ app.get('/auth', function(req, res) {
 });
 app.get('/google', function(req, res) {
     console.log(req.body);
+    res.send(body);
 });
 
 var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
