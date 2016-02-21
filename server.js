@@ -93,7 +93,7 @@ app.post('/smooch', function (req, res) {
             "content-type": 'application/json'
         },
         body: JSON.stringify({
-            'text': intent,
+            'text': response,
             'role': 'appMaker'
         })
     }, function (err, response, body) {
