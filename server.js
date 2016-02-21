@@ -91,6 +91,7 @@ app.post('/smooch', function (req, res) {
             day = days[parseInt(date.getDay()) + 1];
         } 
     }
+    day = capitalize(day);
 
     var response;
 
@@ -140,6 +141,10 @@ app.post('/smooch', function (req, res) {
 app.listen(port, function () {
     console.log("Server is listening on port " + port.toString());
 });
+
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 //
 
 
