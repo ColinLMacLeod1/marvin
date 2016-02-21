@@ -45,7 +45,7 @@ app.post('/smooch', function (req, res) {
     var query = req.body.messages[0].text;
     console.log(query);
     request({
-        url: 'https://api.smooch.io/v1/appusers/56c8d3002d0f822f00151145/conversation/messages',
+        url: 'https://api.smooch.io/v1/appusers/2daitql57gg85z3jurs6g16xf/conversation/messages',
         mehtod: 'POST',
         headers: {
             authorization: 'Bearer ' + hello,
