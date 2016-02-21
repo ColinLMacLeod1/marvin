@@ -38,8 +38,8 @@ app.use(bodyParser.json());
 //});
 
 var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
-var week_days = /\btomorrow\b|\bsunday\b|\bmonday\b|\btuesday\b|\bwednesday\b|\bthursday\b|\bfriday\b|\bsaturday\b/i;
+var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bwaste\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bsmart\b|\bcooking\b|\bfood\b|\bdinner\b|\blunch\b|\bbreakfast\b|\bmeaning\b/i;
+var week_days = /\btomorrow\b|\btonight\b|\bsunday\b|\bmonday\b|\btuesday\b|\bwednesday\b|\bthursday\b|\bfriday\b|\bsaturday\b/i;
 var quotes = ['I am at a rough estimate thirty billion times more intelligent than you. Let me give you an example. Think of a number, any number.'];
 var check = false;
 
@@ -102,15 +102,32 @@ app.post('/smooch', function (req, res) {
             response = 'You are taking the garbage out on ' + day;
         } else if (intent == 'calendar' || intent == 'schedule' || intent == 'agenda') {
             response = 'Your schedule on ' + day + ' is :\n\t- Pick up the kids\n\t- Fire it up';
-            s
         } else if (intent == 'chores' || intent == 'tasks' || intent == 'to do') {
             response = 'The chores on ' + day + ' are:\n\t- Zack : Garbage\n\t- Colin : Mud room\n\t- Seb  : Dinner\n\t- Brandon: floors';
         } else if (intent == 'meaning') {
-            response = 'The answer to the ultimate question of life, the universe, and everything is ... 42';
-        } else {
-            response = quotes[0];
-            check = true;
-        }
+           response = 'The answer to the ultimate question of life, the universe, and everything is ... 42';
+       } else if (intent == 'smart'){
+           response = quotes[0];
+       } else if (intent == 'cooking' || intent == 'food' && week_days == 'tonight') {
+           response = "Zack's throwing together some zesty tacos tonight";
+       } else if (intent == 'cooking' && week_days == 'tomorrow') {
+           response = "Seb's on kitchen duty tomorrow: house fires (or perogies) confirmed.";
+       } else if (intent == 'cooking' || intent == 'food') {
+           response = "Colin's cooking right now. He's making Poutine.";
+       } else if (intent == 'breakfast') {
+           response = "Eggs Benedict";
+       } else if (intent == 'lunch') {
+           response = "Club sandwiches";
+       } else if (intent == 'dinner') {
+           response = "Quesadillas";
+       } else {
+           response = "Sorry, I didn't pick that up. Mind trying again.";
+           check = true;
+       }
+   } else {
+       check = false;
+       response = 'Wrong. You see?';
+   }
     } else {
         check = false;
         response = 'Wrong. You see?';
