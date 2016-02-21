@@ -4,20 +4,15 @@ var request = require('request');
 var jwt = require('jsonwebtoken');
 var bodyParser = require("body-parser");
 var WunderlistSDK = require('wunderlist');
-var $ = require('jquery');
 
-//Wunderlist Credentials
-var client_id = 'd08ba8eaa21b0bec5a0a';
-var callback_url = 'http://mchackstest.azurewebsites.net/wunderlist';
-var access_token;
-
+var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
 
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-var KEY_ID = '56c8d3002d0f822f00151145';
-var SECRET = '62Yxh5hAFBRlxpV_6GOpbtTq';
+var KEY_ID = '56c930cf933bcc2a00e9166f';
+var SECRET = 'GZ5goIxmVGV_p977jcpi-iOC';
 var signJwt = function (userId) {
     return jwt.sign({
             scope: 'app',
@@ -30,11 +25,6 @@ var signJwt = function (userId) {
 }
 var hello = signJwt('idk');
 
-var wunderlistAPI = new WunderlistSDK({
-  'accessToken': 'a user access_token',
-  'clientID': 'your client_id'
-});
-
 var port = process.env.PORT || 1337;
 
 // Routing to the user
@@ -45,9 +35,26 @@ var hello = signJwt('idk');
 app.post('/smooch', function (req, res) {
     
     var query = req.body.messages[0].text;
+    
     var id = req.body.appUser._id;
+    if (req.body.messages[0].type === 'appMaker') {
+        return res.end();
+    }
     console.log(id);
     console.log(query);
+    var intent = (query.match(intent_checks)[0]).toLowerCase();
+    
+    if(intent == 'garbage' || intent == 'trash' || intent == 'rubbish') {
+        console.log('Garbage time');
+    } else if (intent == 'calendar' || intent == 'schedule' || intent == 'agenda') {
+        console.log('Fire it Marvin');
+    } else if (intent == 'chores' || intent == 'tasks' || intent == 'to do') {
+        console.log('Floor marshall is in the house');
+    } else if (intent == 'meaning') {
+        console.log('42');
+    }
+    
+    console.log(intent);
     request({
         url: 'https://api.smooch.io/v1/appusers/' + id + '/conversation/messages',
         method: 'POST',
@@ -55,21 +62,17 @@ app.post('/smooch', function (req, res) {
             authorization: 'Bearer ' + hello,
             "content-type": 'application/json'
         },
-        body: JSON.stringify({'text':query, 'role':'appMaker'})
+        body: JSON.stringify({'text':intent, 'role':'appMaker'})
     }, function(err, response, body){
-        console.log(body);
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Message sent successfully');
+        }
     });
     
     res.end();
 });
-
-//request({
-//    url: 'https://www.wunderlist.com/oauth/authorize?client_id=' + client_id + '&redirect_uri=' + callback_url +'&state=hjajbasdfnvcjjd',
-//}, function(err, response, body){
-//    //console.log(body);
-//});
-
-
 
 app.listen(port, function () {
     console.log("Server is listening on port " + port.toString());
@@ -87,8 +90,33 @@ app.listen(port, function () {
 //            authorization: 'Bearer ' + hello,
 //            "content-type": 'application/json'
 //        },
-//        body: JSON.stringify({"target":"http://marvinbot.azurewebsites.net/smooch"})
+//        body: JSON.stringify({"target":"http://d4931e2b.ngrok.io/smooch", "triggers": ["message:appUser"]})
 //    }, function(err, response, body){
 //        console.log(body);
 //    });
+
+//    request({
+//        url: 'https://api.smooch.io/v1/webhooks',
+//        method: 'GET',
+//        headers: {
+//            authorization: 'Bearer ' + hello,
+//            "content-type": 'application/json'
+//        },
+////        body: JSON.stringify({"target":"http://d4931e2b.ngrok.io/smooch", "triggers": ["message:appUser"]})
+//    }, function(err, response, body){
+//        console.log(JSON.parse(body).webhooks);
+//    });
+
+//    request({
+//        url: 'https://api.smooch.io/v1/webhooks/56c93131a99fed2900ca1619',
+//        method: 'DELETE',
+//        headers: {
+//            authorization: 'Bearer ' + hello,
+//            "content-type": 'application/json'
+//        },
+////        body: JSON.stringify({"target":"http://d4931e2b.ngrok.io/smooch", "triggers": ["message:appUser"]})
+//    }, function(err, response, body){
+//        console.log(JSON.parse(body).webhooks[0]);
+//    });
+
 
