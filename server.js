@@ -1,9 +1,7 @@
 var express = require('express');
-var google = require('googleapis');
 var request = require('request');
 var jwt = require('jsonwebtoken');
 var bodyParser = require("body-parser");
-var gcal = require('google-calendar');
 
 // Google authentication
 //var OAuth2 = google.auth.OAuth2;
