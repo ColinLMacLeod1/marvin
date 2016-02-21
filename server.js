@@ -12,8 +12,8 @@ var REDIRECT_URL = 'http://marvinbot.azurewebsites.net/google';
 var oauth2Client = new OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 var scopes = ["https://www.googleapis.com/auth/calendar.readonly"];
 var url = oauth2Client.generateAuthUrl({
-  access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
-  scope: scopes // If you only need one scope you can pass it as string
+    access_type: 'offline', // 'online' (default) or 'offline' (gets refresh_token)
+    scope: scopes // If you only need one scope you can pass it as string
 });
 console.log(url);
 
@@ -24,13 +24,21 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.get('/auth', function(req, res) {
+app.get('/auth', function (req, res) {
     res.redirect(url);
     console.log('Redirecting to ' + url);
 });
-app.get('/google', function(req, res) {
-    res.send(req.query.code);
+app.get('/google', function (req, res) {
+    var tok;
+    oauth2Client.getToken(req.query.code, function (err, tokens) {
+        if (!err) {
+            console.log(tokens);
+            tok = tokens;
+        }
+    });
+    res.send(tok);
 });
+
 
 var intent_checks = /\bgarbage\b|\btrash\b|\brubbish\b|\bcalendar\b|\bschedule\b|\bagenda\b|\bchores\b|\btasks\b|\bto do\b|\bmeaning\b/i;
 
