@@ -30,16 +30,8 @@ app.get('/auth', function (req, res) {
     console.log('Redirecting to ' + url);
 });
 app.get('/google', function (req, res) {
-    var tok;
-    oauth2Client.getToken(req.query.code, function (err, tokens) {
-        if (!err) {
-            console.log(tokens);
-            tok = tokens;
-        } else {
-            console.log(err);
-        }
-    });
-    res.send(tok);
+    var code = req.query.code;
+    res.send(code);
 });
 
 
