@@ -67,13 +67,12 @@ app.use(express.static(__dirname + "/public"));
 app.post('/smooch', function (req, res) {
 
     var query = req.body.messages[0].text;
+    console.log(query);
 
     var id = req.body.appUser._id;
     if (req.body.messages[0].type === 'appMaker') {
         return res.end();
     }
-    console.log(id);
-    console.log(query);
     var intent = (query.match(intent_checks)[0]).toLowerCase();
     var day = (query.match(week_days)[0]).toLowerCase();
     if(day === 'tomorrow') {
