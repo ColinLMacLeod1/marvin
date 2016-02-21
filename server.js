@@ -79,7 +79,7 @@ app.post('/smooch', function (req, res) {
     if (query.match(intent_checks)) {
         intent = (query.match(intent_checks)[0]).toLowerCase();
     }
-    if (day = query.match(week_days)) {
+    if (query.match(week_days)) {
         day = capitalize(query.match(week_days)[0]);
     } else {
         day = days[parseInt(date.getDay())];
